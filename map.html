@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mapApp">
+<head>
+        <script src="bower_components/leaflet/dist/leaflet.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="js/angular-leaflet-directive.min.js"></script>
+        <script src="js/controllers.js"></script>
+        <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+        <!--<script src="js/out.js"></script>-->
+</head>
+<body ng-controller="MapController">
+<!--<body>-->
+                <!-- <div ng-controller="mapCtrl">-->
+                        <leaflet center="vallejo" width="640px" height="500px"></leaflet> 
+               <!-- </div>
+                <div id="buttons">
+                        <select ng-model="yearSelect" ng-options="year.name as year.name for year in years">
+	                        <option value="" selected ="selected"> All years </option>
+                        </select>
+                </div>-->
+</body>
+</html>
