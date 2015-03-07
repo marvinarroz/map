@@ -45,25 +45,26 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , function($scope, $fi
 			zoom: 13
 		},
 		defaults: {
-			tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+			tileLayer: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 			scrollWheelZoom: false 
-		}
-	});
-	
-		angular.extend($scope, {
+		},
 		geojson: {
-			data: data,
-			onEachFeature : function(feature, layer) {
-				layer.bindPopup("<b>Date:</b> " + feature.properties.date + "<br>"
+				data: data,
+				onEachFeature : function(feature, layer) {
+					layer.bindPopup("<b>Date:</b> " + feature.properties.date + "<br>"
 					      + "<b>Name:</b> " + feature.properties.name + "<br>"
 					      + "<b>Age:</b> " + feature.properties.age + "<br>"
 					      + "<b>Cause of death:</b> " + feature.properties["cause of death"] + "<br>"
 					      + "<b>Category:</b> " + feature.properties.category + "<br>"
 					      + "<b>Gender:</b> " + feature.properties.gender + "<br>"
 					      + "<b>Location:</b> " + feature.properties.location);
+				},
+				pointToLayer: function(feature, latlng) {
+					      return L.circleMarker(latlng, { radius:5, fillColor:"#9a0707", color:"#000", weight:1, opacity:1, fillOpacity:0.5});
+				}, 
 			}
-		}
 	});
+	
 	$scope.$watchGroup(['yearSelect', 'genderSelect', 'causeSelect', 'ageSelect', 'categorySelect'], 
 		function(newValues, oldValues, scope) {
 			var filtered = $filter('filterMarkers')(data,$scope.yearSelect,$scope.genderSelect,$scope.causeSelect,$scope.ageSelect,$scope.categorySelect);
