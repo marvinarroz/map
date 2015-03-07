@@ -3,20 +3,30 @@
 <head>
         <script src="bower_components/leaflet/dist/leaflet.js"></script>
         <script src="bower_components/angular/angular.js"></script>
-        <script src="js/angular-leaflet-directive.min.js"></script>
-        <script src="js/controllers.js"></script>
+	<script src="js/angular-leaflet-directive.min.js"></script>
+	<script src="js/controllers.js"></script>
         <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-        <!--<script src="js/out.js"></script>-->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+        <script src="js/out.js"></script>
 </head>
 <body ng-controller="MapController">
-<!--<body>-->
-                <!-- <div ng-controller="mapCtrl">-->
-                        <leaflet center="vallejo" width="640px" height="500px"></leaflet> 
-               <!-- </div>
+			<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="500px"></leaflet> 
                 <div id="buttons">
-                        <select ng-model="yearSelect" ng-options="year.name as year.name for year in years">
-	                        <option value="" selected ="selected"> All years </option>
+                        <select ng-model="yearSelect" ng-options="year for year in years">
+	                        <option value="" selected ="selected">Year</option>
                         </select>
-                </div>-->
+			<select ng-model="genderSelect" ng-options="gender for gender in genders">
+				<option value="" selected="selected">Gender</option>
+			</select>
+			<select ng-model="causeSelect" ng-options="cause for cause in causes">
+				<option value="" selected="selected">Cause</option>
+			</select>
+			<select ng-model="ageSelect" ng-options="age for age in ages">
+				<option value="" selected="selected">Age</option>
+			</select>
+			<select ng-model="categorySelect" ng-options="category for category in categories">
+				<option value="" selected="selected">Category</option>
+			</select>
+                </div>
 </body>
 </html>
