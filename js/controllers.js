@@ -6,7 +6,7 @@ mapApp.filter('filterMarkers', function() {
 		for (var i=0; i<data.length; i++) {
 			if ((year === undefined || year === null || data[i].properties.year == year) && 
 			     (gender === undefined || gender === null || data[i].properties.gender == gender) &&
-		   	     (cause === undefined || cause === null || data[i].properties.cause == cause) &&
+		   	     (cause === undefined || cause === null || data[i].properties["cause of death"] == cause) &&
 			     (age === undefined || age === null || this.checkAge(data[i].properties.age,age.Range[0],age.Range[1])) &&
 			     (category === undefined || category === null || data[i].properties.category == category)) {
 				filtered.push(data[i]);
@@ -52,15 +52,22 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , function($scope, $fi
 	
 		angular.extend($scope, {
 		geojson: {
-			data: data
+			data: data,
+			onEachFeature : function(feature, layer) {
+				layer.bindPopup("<b>Date:</b> " + feature.properties.date + "<br>"
+					      + "<b>Name:</b> " + feature.properties.name + "<br>"
+					      + "<b>Age:</b> " + feature.properties.age + "<br>"
+					      + "<b>Cause of death:</b> " + feature.properties["cause of death"] + "<br>"
+					      + "<b>Category:</b> " + feature.properties.category + "<br>"
+					      + "<b>Gender:</b> " + feature.properties.gender + "<br>"
+					      + "<b>Location:</b> " + feature.properties.location);
+			}
 		}
 	});
 	$scope.$watchGroup(['yearSelect', 'genderSelect', 'causeSelect', 'ageSelect', 'categorySelect'], 
 		function(newValues, oldValues, scope) {
 			var filtered = $filter('filterMarkers')(data,$scope.yearSelect,$scope.genderSelect,$scope.causeSelect,$scope.ageSelect,$scope.categorySelect);
-			$scope.geojson = {
-				data:filtered
-			};
+			$scope.geojson.data = filtered;
 		});
 }]);
 
