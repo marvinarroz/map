@@ -2,12 +2,13 @@ var mapApp = angular.module('mapApp',["leaflet-directive"]);
 
 mapApp.filter('filterMarkers', function() {
 	return function(data, year, gender, cause, age, category) {
+		console.log(age);
 		var filtered = [];
 		for (var i=0; i<data.length; i++) {
 			if ((year === undefined || year === null || data[i].properties.year == year) && 
 			     (gender === undefined || gender === null || data[i].properties.gender == gender) &&
 		   	     (cause === undefined || cause === null || data[i].properties.cause == cause) &&
-			     (age === undefined || age === null || data[i].properties.age == age) &&
+			     (age === undefined || age === null || this.checkAge(data[i].properties.age,age.Range[0],age.Range[1])) &&
 			     (category === undefined || category === null || data[i].properties.category == category)) {
 				filtered.push(data[i]);
 			}
@@ -16,20 +17,25 @@ mapApp.filter('filterMarkers', function() {
 	};
 });
 
+var checkAge = function(age, min, max) {
+	return min <= age && age < max;
+};
+
 mapApp.controller('MapController', [ '$scope' , '$filter' , function($scope, $filter) {
-	$scope.years = [];
-	for (var i=2000;i<=2015;i++){
-		$scope.years.push(i);
-	}
+	$scope.ages = [{'Name' : '0-20', 'Range' : [0,20]}, 
+			{'Name' : '21-26', 'Range' : [21,26]},
+			{'Name' : '27-34', 'Range' : [27,34]},
+			{'Name' : '35-47', 'Range' : [35,47]},
+			{'Name' : '48+', 'Range' : [48,200]}];
 	$scope.genders = [
 		'Male','Female'
 	];
 	$scope.causes = [
 		'Asphyxiation', 'Blunt Force', 'Shooting', 'Stabbing', 'Tasering', 'Unknown', 'Vehicle'
 	];
-	$scope.ages = [];
-	for (var i=0;i<=90;i++){
-		$scope.ages.push(i);
+	$scope.years = [];
+	for (var i=2000;i<=2015;i++){
+		$scope.years.push(i);
 	}
 	$scope.categories = ['Accident', 'Homicide', 'Justifiable Homicide', 'Negligent Homicide', 'Officer-Involved Homicide', 'Unincorporated Homicide'];
 
