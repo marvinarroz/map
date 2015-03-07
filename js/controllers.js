@@ -2,7 +2,6 @@ var mapApp = angular.module('mapApp',["leaflet-directive"]);
 
 mapApp.filter('filterMarkers', function() {
 	return function(data, year, gender, cause, age, category) {
-		console.log(age);
 		var filtered = [];
 		for (var i=0; i<data.length; i++) {
 			if ((year === undefined || year === null || data[i].properties.year == year) && 
