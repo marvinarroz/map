@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="mapApp">
-<head>
-        <script src="bower_components/leaflet/dist/leaflet.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-	<script src="js/angular-leaflet-directive.min.js"></script>
-	<script src="js/controllers.js"></script>
-        <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/index.css" />
-        <script src="js/out.js"></script>
-</head>
-<body ng-controller="MapController">
-			<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="500px"></leaflet> 
-                <div id="buttons">
-                        <select ng-model="yearSelect" ng-options="year for year in years">
-	                        <option value="" selected ="selected">Year</option>
-                        </select>
+	<head>
+		<script src="bower_components/leaflet/dist/leaflet.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="js/angular-leaflet-directive.min.js"></script>
+		<script src="js/controllers.js"></script>
+		<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/out.js"></script>
+	</head>
+	<body ng-controller="MapController">
+		<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="500px"></leaflet> 
+		<div id="buttons">
+			<select ng-model="yearSelect" ng-options="year for year in years">
+				<option value="" selected ="selected">Year</option>
+			</select>
 			<select ng-model="genderSelect" ng-options="gender for gender in genders">
 				<option value="" selected="selected">Gender</option>
 			</select>
@@ -28,6 +28,6 @@
 			<select ng-model="categorySelect" ng-options="category for category in categories">
 				<option value="" selected="selected">Category</option>
 			</select>
-                </div>
-</body>
+		</div>
+	</body>
 </html>
