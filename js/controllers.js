@@ -1,4 +1,40 @@
-var mapApp = angular.module('mapApp',["leaflet-directive"]); 
+var mapApp = angular.module('mapApp',["leaflet-directive", "ngSanitize", "ui.router"]);
+
+mapApp.config([
+		'$stateProvider',
+		'$urlRouterProvider',
+		function($stateProvider, $urlRouterProvider) {
+
+			$stateProvider
+				.state('home', {
+					url: '/home',
+					templateUrl: '/home.html',
+					controller: 'MapController',
+				})
+			.state('articles', {
+				url: '/articles/{id}',
+				templateUrl: '/articles.html',
+				controller: 'ArticleController',
+				resolve: {
+					article: ['$stateParams', 'articles', function($stateParams, articles) {
+						return articles.get($stateParams.id);
+					}]
+				}
+			});
+			$urlRouterProvider.otherwise('home');
+		}])
+.factory('articles', ['$http', function($http) {
+	var fac = {};
+
+	fac.get = function(id) {
+		return $http.get("https://s3-us-west-2.amazonaws.com/vallejo/" + id)
+			.success(function(response) {
+				return response;
+			});
+	};
+
+	return fac;
+}]);
 
 mapApp.filter('filterMarkers', function() {
 	return function(data, year, gender, cause, age, category) {
@@ -20,7 +56,7 @@ var checkAge = function(age, min, max) {
 	return min <= age && age < max;
 };
 
-mapApp.controller('MapController', [ '$scope' , '$filter' , function($scope, $filter) {
+mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function($scope, $filter, $state) {
 	$scope.ages = [
 	{'Name' : '0-20', 'Range' : [0,20]}, 
 	{'Name' : '21-26', 'Range' : [21,26]},
@@ -39,33 +75,39 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , function($scope, $fi
 	}
 	$scope.categories = ['Accident', 'Homicide', 'Justifiable Homicide', 'Negligent Homicide', 'Officer-Involved Homicide', 'Unincorporated Homicide'];
 
-	angular.extend($scope, {
-		vallejo: {
+	$scope.vallejo = {
 			lat: 38.1139,
 			lng: -122.2241,
 			zoom: 13
-		},
-		defaults: {
+		};
+
+	$scope.defaults = {
 			tileLayer: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 			scrollWheelZoom: false 
-		},
-		geojson: {
+		};
+
+	$scope.geojson = {
 			data: data,
 			onEachFeature : function(feature, layer) {
-				layer.bindPopup("<b>" + feature.properties.name  
+				layer.bindPopup("<b>" + feature.properties.name + ", " + feature.properties.age  
 						, {closeButton: false, offset: L.point(0,-3)});
 				layer.on('mouseover', function() { layer.openPopup()});
 				layer.on('mouseout', function() {layer.closePopup()});
+				layer.on('click', function() { $state.go('articles', { 'id' : 'Temp.txt' })});
 			},
 			pointToLayer: function(feature, latlng) {
 				return L.circleMarker(latlng, { radius:5, fillColor:"#9a0707", color:"#000", weight:1, opacity:1, fillOpacity:0.5});
 			}, 
-		}
-	});
+		};
 
 	$scope.$watchGroup(['yearSelect', 'genderSelect', 'causeSelect', 'ageSelect', 'categorySelect'], 
 			function(newValues, oldValues, scope) {
 				var filtered = $filter('filterMarkers')(data,$scope.yearSelect,$scope.genderSelect,$scope.causeSelect,$scope.ageSelect,$scope.categorySelect);
 				$scope.geojson.data = filtered;
 			});
+}]);
+
+mapApp.controller('ArticleController', [ '$scope', '$controller', 'article', function($scope, $controller,  article) {
+	angular.extend(this, $controller('MapController', {$scope:$scope}));
+	$scope.article = article.data;
 }]);

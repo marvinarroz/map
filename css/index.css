@@ -20,3 +20,21 @@
 .leaflet-popup-content {
 	margin: 2px;
 }
+
+#articles {
+	width: 50%;
+	margin: 0 auto;
+}
+
+h1 {
+	font-family: Georgia;
+	font-size: 56px;
+	line-height: 57.5px;
+	font-weight: normal;
+}
+
+.articleBody {
+	font-family: Georgia;
+	font-size: 18px;
+	line-height: 20px;
+}

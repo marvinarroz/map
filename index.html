@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="mapApp">
+<html lang="en">
 	<head>
 		<script src="bower_components/leaflet/dist/leaflet.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-blocks/dist/angular-blocks.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 		<script src="js/angular-leaflet-directive.min.js"></script>
 		<script src="js/controllers.js"></script>
 		<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
@@ -10,24 +13,37 @@
 		<link rel="stylesheet" href="css/index.css" />
 		<script src="js/out.js"></script>
 	</head>
-	<body ng-controller="MapController">
-		<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="500px"></leaflet> 
-		<div id="buttons">
-			<select ng-model="yearSelect" ng-options="year for year in years">
-				<option value="" selected ="selected">Year</option>
-			</select>
-			<select ng-model="genderSelect" ng-options="gender for gender in genders">
-				<option value="" selected="selected">Gender</option>
-			</select>
-			<select ng-model="causeSelect" ng-options="cause for cause in causes">
-				<option value="" selected="selected">Cause</option>
-			</select>
-			<select ng-model="ageSelect" ng-options="age.Name for age in ages">
-				<option value="" selected="selected">Age</option>
-			</select>
-			<select ng-model="categorySelect" ng-options="category for category in categories">
-				<option value="" selected="selected">Category</option>
-			</select>
-		</div>
+	<body ng-app="mapApp">
+		<ui-view></ui-view>
+
+		<script type="text/ng-template" id="/home.html">
+			<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="900px"></leaflet> 
+			<div id="buttons">
+				<select ng-model="yearSelect" ng-options="year for year in years">
+					<option value="" selected ="selected">Year</option>
+				</select>
+				<select ng-model="genderSelect" ng-options="gender for gender in genders">
+					<option value="" selected="selected">Gender</option>
+				</select>
+				<select ng-model="causeSelect" ng-options="cause for cause in causes">
+					<option value="" selected="selected">Cause</option>
+				</select>
+				<select ng-model="ageSelect" ng-options="age.Name for age in ages">
+					<option value="" selected="selected">Age</option>
+				</select>
+				<select ng-model="categorySelect" ng-options="category for category in categories">
+					<option value="" selected="selected">Category</option>
+				</select>
+			</div>
+
+		</script>
+		<script type="text/ng-template" id="/articles.html">
+			<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" height="500px"></leaflet> 
+			<div id="articles">
+				<h1> {{article.title}}</h1>
+				<div id="articleBody" ng-bind-html="article.article"></div>
+				<span class="articleHeadlines"> {{article.headlines}}</span>
+			</div>
+		</script>
 	</body>
 </html>
