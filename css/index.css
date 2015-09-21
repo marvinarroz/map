@@ -20,6 +20,16 @@ ul {
 .leaflet-popup-content {
 	margin: 2px;
 }
+a.btn.btn-default.leaflet-control {
+	margin-bottom: 0;
+	margin-left: 185px;
+	width: 80px;
+	color: black;
+	font-size:14pt;
+	font-family:Georgia;
+	text-decoration: inherit;
+	text-align: center;
+}
 
 #articlesContainer {
 	width: 80%;

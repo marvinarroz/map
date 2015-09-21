@@ -123,7 +123,7 @@ var monthNames = [
 	"November", "December"
 ];
 
-mapApp.controller('ArticleController', [ '$scope', '$controller', '$stateParams', 'article', function($scope, $controller, $stateParams, article) {
+mapApp.controller('ArticleController', [ '$scope', '$controller', '$stateParams', 'article', 'leafletData', function($scope, $controller, $stateParams, article, leafletData) {
 	angular.extend(this, $controller('MapController', {$scope:$scope}));
 	$scope.article = article.data;
 	$scope.height = '400px';
@@ -134,5 +134,24 @@ mapApp.controller('ArticleController', [ '$scope', '$controller', '$stateParams'
 	$scope.location = $stateParams.location;
 	$scope.category = $stateParams.category;
 	$scope.causeOfDeath = $stateParams.causeOfDeath;
+	var homeButton = L.Control.extend({
+		options: {
+			position: 'bottomleft'
+		},
+
+		onAdd: function(map) {
+			var container = L.DomUtil.create('a', 'btn btn-default');
+			container.text = 'Home';
+			container.href = '#/home.html';
+			console.log(container);
+			return container;
+		}
+	});
+	leafletData.getMap().then(
+			function(map) {
+				var button = new homeButton();
+				map.addControl(new homeButton());
+			});
+
 }]);
 
