@@ -12,9 +12,9 @@ mapApp.config([
 					controller: 'MapController',
 				})
 			.state('articles', {
-				url: '/articles/{id}',
 				templateUrl: '/articles.html',
 				controller: 'ArticleController',
+				params: ['id', 'date', 'age', 'gender', 'location', 'category', 'causeOfDeath'],
 				resolve: {
 					article: ['$stateParams', 'articles', function($stateParams, articles) {
 						return articles.get($stateParams.id);
@@ -77,30 +77,37 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function(
 	$scope.categories = ['Accident', 'Homicide', 'Justifiable Homicide', 'Negligent Homicide', 'Officer-Involved Homicide', 'Unincorporated Homicide'];
 
 	$scope.vallejo = {
-			lat: 38.1139,
-			lng: -122.2241,
-			zoom: 13
-		};
+		lat: 38.1139,
+		lng: -122.2241,
+		zoom: 13
+	};
 
 	$scope.defaults = {
-			tileLayer: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-			scrollWheelZoom: false 
-		};
+		tileLayer: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+		scrollWheelZoom: false 
+	};
 
 
 	$scope.geojson = {
-			data: data,
-			onEachFeature : function(feature, layer) {
-				layer.bindPopup("<b>" + feature.properties.name + ", " + feature.properties.age  
-						, {closeButton: false, offset: L.point(0,-3)});
-				layer.on('mouseover', function() { layer.openPopup()});
-				layer.on('mouseout', function() {layer.closePopup()});
-				layer.on('click', function() { $state.go('articles', { 'id' : 'Temp.txt' })});
-			},
-			pointToLayer: function(feature, latlng) {
-				return L.circleMarker(latlng, { radius:5, fillColor:"#9a0707", color:"#000", weight:1, opacity:1, fillOpacity:0.5});
-			}, 
-		};
+		data: data,
+		onEachFeature : function(feature, layer) {
+			layer.bindPopup("<b>" + feature.properties.name + ", " + feature.properties.age  
+					, {closeButton: false, offset: L.point(0,-3)});
+			layer.on('mouseover', function() { layer.openPopup()});
+			layer.on('mouseout', function() {layer.closePopup()});
+			layer.on('click', function() { $state.go('articles',
+						{ 'id' : 'Temp.txt' , 
+							'date' : feature.properties.date ,
+							'age' : feature.properties.age,
+							'gender' : feature.properties.gender,
+							'location' : feature.properties.location,
+							'category' : feature.properties.category,
+							'causeOfDeath' : feature.properties["cause of death"] })});
+		},
+		pointToLayer: function(feature, latlng) {
+			return L.circleMarker(latlng, { radius:5, fillColor:"#9a0707", color:"#000", weight:1, opacity:1, fillOpacity:0.5});
+		}, 
+	};
 
 	$scope.$watchGroup(['yearSelect', 'genderSelect', 'causeSelect', 'ageSelect', 'categorySelect'], 
 			function(newValues, oldValues, scope) {
@@ -109,8 +116,23 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function(
 			});
 }]);
 
-mapApp.controller('ArticleController', [ '$scope', '$controller', 'article', function($scope, $controller,  article) {
+var monthNames = [
+	"January", "February", "March",
+	"April", "May", "June", "July",
+	"August", "September", "October",
+	"November", "December"
+];
+
+mapApp.controller('ArticleController', [ '$scope', '$controller', '$stateParams', 'article', function($scope, $controller, $stateParams, article) {
 	angular.extend(this, $controller('MapController', {$scope:$scope}));
 	$scope.article = article.data;
 	$scope.height = '400px';
+	var tempDate = new Date($stateParams.date);
+	$scope.date = monthNames[tempDate.getMonth()] + " " + tempDate.getDate() + ", " + tempDate.getFullYear();
+	$scope.age = $stateParams.age;
+	$scope.gender = $stateParams.gender;
+	$scope.location = $stateParams.location;
+	$scope.category = $stateParams.category;
+	$scope.causeOfDeath = $stateParams.causeOfDeath;
 }]);
+

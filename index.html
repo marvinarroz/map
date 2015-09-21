@@ -42,10 +42,44 @@
 		</script>
 		<script type="text/ng-template" id="/articles.html">
 			<div data-extend-template="/home.html">
-				<div data-block-after="map" id="articles">
-					<h1> {{article.title}}</h1>
-					<div id="articleBody" ng-bind-html="article.article"></div>
-					<span class="articleHeadlines"> {{article.headlines}}</span>
+				<div data-block-after="map" id="articlesContainer">
+					<div id="description">
+						<ul>
+							<li>
+								<strong>Death date</strong>
+							</li>
+							<li>
+								{{date}} <br>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								<strong>Address</strong>
+							</li>
+							<li>
+								{{location}}
+							</li>
+						</ul>
+						<ul>
+							<li>
+							Age: {{age}}
+							</li>
+							<li>
+							Gender: {{gender}} 
+							</li>
+							<li>
+							Cause: {{causeOfDeath}} 
+							</li>
+							<li>
+							Category: {{category}}
+							</li>
+						</ul>
+					</div>
+					<div id="article">
+						<h1> {{article.title}}</h1>
+						<div id="articleBody" ng-bind-html="article.article"></div>
+						<span class="articleHeadlines"> {{article.headlines}}</span>
+					</div>
 				</div>
 			</div>
 		</script>
