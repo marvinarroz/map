@@ -1,4 +1,4 @@
-var mapApp = angular.module('mapApp',["leaflet-directive", "ngSanitize", "ui.router"]);
+var mapApp = angular.module('mapApp',["leaflet-directive", "ngSanitize", "ui.router", "angular-blocks"]);
 
 mapApp.config([
 		'$stateProvider',
@@ -57,6 +57,7 @@ var checkAge = function(age, min, max) {
 };
 
 mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function($scope, $filter, $state) {
+	$scope.height = '900px';
 	$scope.ages = [
 	{'Name' : '0-20', 'Range' : [0,20]}, 
 	{'Name' : '21-26', 'Range' : [21,26]},
@@ -86,6 +87,7 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function(
 			scrollWheelZoom: false 
 		};
 
+
 	$scope.geojson = {
 			data: data,
 			onEachFeature : function(feature, layer) {
@@ -110,4 +112,5 @@ mapApp.controller('MapController', [ '$scope' , '$filter' , '$state' , function(
 mapApp.controller('ArticleController', [ '$scope', '$controller', 'article', function($scope, $controller,  article) {
 	angular.extend(this, $controller('MapController', {$scope:$scope}));
 	$scope.article = article.data;
+	$scope.height = '400px';
 }]);
