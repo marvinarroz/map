@@ -21,19 +21,19 @@
 			<div data-block="map">
 				<leaflet center="vallejo" defaults="defaults" geojson="geojson" width="100%" ng-style="{'height' : height}"></leaflet> 
 				<div id="buttons">
-					<select ng-model="yearSelect" ng-options="year for year in years">
+					<select class="form-control" ng-model="yearSelect" ng-options="year for year in years">
 						<option value="" selected ="selected">Year</option>
 					</select>
-					<select ng-model="genderSelect" ng-options="gender for gender in genders">
+					<select class="form-control" ng-model="genderSelect" ng-options="gender for gender in genders">
 						<option value="" selected="selected">Gender</option>
 					</select>
-					<select ng-model="causeSelect" ng-options="cause for cause in causes">
+					<select class="form-control" ng-model="causeSelect" ng-options="cause for cause in causes">
 						<option value="" selected="selected">Cause</option>
 					</select>
-					<select ng-model="ageSelect" ng-options="age.Name for age in ages">
+					<select class="form-control" ng-model="ageSelect" ng-options="age.Name for age in ages">
 						<option value="" selected="selected">Age</option>
 					</select>
-					<select ng-model="categorySelect" ng-options="category for category in categories">
+					<select class="form-control" ng-model="categorySelect" ng-options="category for category in categories">
 						<option value="" selected="selected">Category</option>
 					</select>
 				</div>

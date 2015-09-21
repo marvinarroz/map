@@ -20,13 +20,15 @@ ul {
 .leaflet-popup-content {
 	margin: 2px;
 }
+select.form-control {
+	display: inline-block;
+	width: 15%;
+}
 a.btn.btn-default.leaflet-control {
 	margin-bottom: 0;
-	margin-left: 185px;
+	margin-left: 195px;
 	width: 80px;
 	color: black;
-	font-size:14pt;
-	font-family:Georgia;
 	text-decoration: inherit;
 	text-align: center;
 }
@@ -38,7 +40,8 @@ a.btn.btn-default.leaflet-control {
 }
 #description {
 	margin-top: 12px;
-	width: 24%;
+	margin-left: 50px;
+	width: 20%;
 	float: left;
 	//border: 1pt dashed blue;
 }
